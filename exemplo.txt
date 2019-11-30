@@ -1,0 +1,40 @@
+macro main(obj) {
+    div (class="foo" id="bar") {
+        h1 $obj.title
+        p $obj.deion
+    }
+}
+
+
+###
+
+start : cmd+
+
+?cmd : define
+     | imp
+
+imp : "import" "{" args "}" "from" NAME
+    
+define : "macro" NAME "(" args? ")" "{" html "}"
+
+args : NAME ("," NAME)*
+
+html : NAME attrs? children
+
+attrs : "(" pair+ ")"
+
+pair : NAME "=" expr
+
+expr : atom
+     | subs
+     | html
+
+subs : "$" NAME ("." NAME)*
+    
+atom : STRING
+     | NUMBER
+     | var
+     | "(" expr ")"
+
+children : expr
+         | "{" expr+ "}"
