@@ -1,13 +1,45 @@
-?start : value+
+start : cmd+
 
-?value : SYMBOL
- 
+?cmd : define
+     | imp
+
+imp : "import" "{" args "}" "from" NAME
+    
+define : "macro" NAME "(" args? ")" "{" html "}"
+
+args : NAME ("," NAME)*
+
+html : NAME atrib? children
+
+atrib : "(" param+ ")"
+
+param : NAME "=" expr
+
+expr : atom
+     | subs
+     | html
+
+subs : "$" NAME ("." NAME)*
+    
+atom : STRING
+     | number
+     | var
+     | "(" expr ")"
+
+children : expr
+         | "{" expr+ "}"
+
+number: INT 
+      | FLOAT
+
+
 
 // Terminais
 SYMBOL.0  : /[-!+\/*@$%^&~<>?|\\\w=]+/
 STRING    : /"[^"\\]*(\\[^\n\t\r\f][^"\\]*)*"/
 INT.1     : /-?\d+/
 FLOAT.2   : /-?\d+\.\d+/
+NAME: /[a-zA-Z]\w*/
 
 %ignore /\s+/
 %ignore /;[^\n]*/

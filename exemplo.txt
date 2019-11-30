@@ -1,7 +1,13 @@
 macro main(obj) {
     div (class="foo" id="bar") {
-        h1 $obj.title
-        p $obj.deion
+        h1 $obj.title1
+        h2 $obj.title2
+        h3 $obj.title3
+        p $obj.parag
+        a $obj.link
+        title $obj.title
+        strong $obj.text
+        em $obj.italico
     }
 }
 
