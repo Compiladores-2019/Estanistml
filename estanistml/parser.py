@@ -3,10 +3,15 @@ from pathlib import Path
 
 from .runtime import Symbol
 
-
 class LispTransformer(InlineTransformer):
     def start(self, *args): 
-        return [Symbol.BEGIN, *args]
+        return ["Macro", *args]
+
+    def string(self, st):
+        return st[1:-1]  
+   
+
+    
 
 def parse(src: str):
     """

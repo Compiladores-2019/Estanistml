@@ -12,7 +12,7 @@ def main(file, parse):
     if file is None:
         e = env()
         while True:
-            src = input('lispy> ')
+            src = input('estanistml> ')
             if not src and input('sair? [y/n]').lower() == 'y':
                 break
             ast = parse_src(src)

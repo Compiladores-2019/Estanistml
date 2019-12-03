@@ -1,35 +1,34 @@
-start : cmd+
+?start : cmd+
 
 ?cmd : define
      | imp
 
-imp : "import" "{" args "}" "from" NAME
+?imp : "import" "{" args "}" "from" NAME
     
-define : "macro" NAME "(" args? ")" "{" html "}"
+?define : "macro" NAME "(" args? ")" "{" html "}"
 
-args : NAME ("," NAME)*
+?args : NAME ("," NAME)*
 
-html : NAME atrib? children
+?html : NAME atrib? children
 
-atrib : "(" param+ ")"
+?atrib : "(" param+ ")"
 
-param : NAME "=" expr
+?param : NAME "=" expr
 
-expr : atom
+?expr : atom
      | subs
      | html
 
-subs : "$" NAME ("." NAME)*
+?subs : "$" NAME ("." NAME)*
     
-atom : STRING
+?atom : STRING
      | number
-     | var
      | "(" expr ")"
 
-children : expr
+?children : expr
          | "{" expr+ "}"
 
-number: INT 
+?number: INT 
       | FLOAT
 
 
