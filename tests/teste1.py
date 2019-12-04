@@ -8,6 +8,6 @@ x, y, a, b, c, f, g, h, op = map(Symbol, 'x y a b c f g h op'.split())
 class TestGrammar:
     
     def test_quote_is_converted_to_sexpr(self):
-        aux = parse("macro word")
-        print (str(aux))
+        aux = parse('macro joao (JOAO) {joao}')
+        print (aux)
         assert True == False

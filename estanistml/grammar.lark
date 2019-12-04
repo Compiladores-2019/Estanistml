@@ -3,26 +3,29 @@
 ?cmd : define
      | imp
 
-?imp : "import" "{" args "}" "from" NAME
-    
+
+?imp : "import" objeto "from" NAME
+
+?objeto: "{" args "}" ->obj
+
 ?define : "macro" NAME "(" args? ")" "{" html "}"
 
 ?args : NAME ("," NAME)*
 
-?html : NAME atrib? children
+?html : NAME //atrib? children?
 
 ?atrib : "(" param+ ")"
 
 ?param : NAME "=" expr
 
-?expr : atom
-     | subs
-     | html
+?expr : atom -> atom
+     | subs 
+     | html 
 
 ?subs : "$" NAME ("." NAME)*
     
-?atom : STRING
-     | number
+?atom : NAME -> string
+     | number -> numb
      | "(" expr ")"
 
 ?children : expr
@@ -30,8 +33,6 @@
 
 ?number: INT 
       | FLOAT
-
-
 
 // Terminais
 SYMBOL.0  : /[-!+\/*@$%^&~<>?|\\\w=]+/
