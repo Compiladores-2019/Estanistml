@@ -1,14 +1,29 @@
 from lark import Lark, InlineTransformer
 from pathlib import Path
-
 from .runtime import Symbol
+from html.parser import HTMLParser
+
+
+class MyHTMLParser(HTMLParser):
+    def handle_starttag(self, tag, attrs):
+        print(tag)
+        return tag
+    def handle_endtag(self, endtag):
+       print(endtag)
+       return endtag
+    def handle_data(self, data):
+        print(data)
+        return data
 
 class LispTransformer(InlineTransformer):
+    parser = MyHTMLParser()
+    parser.feed('<html><head><title>Test</title></head></html>')
     def start(self, *args): 
         return ["Macro", *args]
 
     def string(self, st):
         return st[1:-1]  
+
    
 
     
