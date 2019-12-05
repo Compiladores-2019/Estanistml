@@ -1,8 +1,19 @@
 from lark import Lark, InlineTransformer
 from pathlib import Path
-
 from .runtime import Symbol
+# from html.parser import HTMLParser
+# from bs4 import BeautifulSoup
 
+# class MyHTMLParser(HTMLParser):
+#     def handle_starttag(self, tag, attrs):
+#         print(tag)
+#         return tag
+#     def handle_endtag(self, endtag):
+#        print(endtag)
+#        return endtag
+#     def handle_data(self, data):
+#         print(data)
+#         return data
 
 class LispTransformer(InlineTransformer):
     int = int
@@ -65,7 +76,7 @@ def _make_grammar():
 
     path = Path(__file__).parent / 'grammar.lark'
     with open(path) as fd:
-        grammar = Lark(fd, parser='lalr', transformer=LispTransformer())
+        grammar = Lark(fd, parser='lalr', transformer=HTMLTransformer())
     return grammar
 
 
