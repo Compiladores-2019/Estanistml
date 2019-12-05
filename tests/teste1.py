@@ -20,16 +20,25 @@ class TestGrammar:
         assert parse(src) == ['module', ['define', x, ["html", "h1", {}, ["bar"]]]] 
 
     def test_simple_example3(self):
-        src = 'x = h1 (alexandre = 2) "bar";'
-        tree = parse(src)
-        print(pretty(tree))
-        assert parse(src) == ['module', ['define', x, ["html", "h1", {"(alexandre, 2)"}, ["bar"]]]] 
-
-    def test_simple_example4(self):
         src = 'macro f(x) {42}'
         tree = parse(src)
         print(pretty(tree))
         assert parse(src) == ['module', ['macro', f, [x], 42]] 
+
+    def test_full_example1(self):
+        src = 'x = h1 (alexandre = 2) "bar";'
+        tree = parse(src)
+        print(pretty(tree))
+        assert parse(src) == ['module', ['define', x, ["html", "h1", {"[(alexandre, 2)]"}, ["bar"]]]]
+
+    def test_full_example2(self):
+        src = 'x = h1 (alexandre = 2, mo = 1) "bar";'
+        src2 = 'x = h1 (alexandre = 2, mo = 1, jao = 24, cristo = 13) "bar";'
+        tree = parse(src)
+        print(pretty(tree))
+        assert parse(src) == ['module', ['define', x, ["html", "h1", {"[(alexandre, 2), (mo, 1)]"}, ["bar"]]]]
+        assert parse(src2) == ['module', ['define', x, ["html", "h1", {"[(alexandre, 2), (mo, 1), (jao, 24), (cristo, 13)]"}, ["bar"]]]]
+
 
         #aux = parse('macro joao (obj) { div (class=\"foo\" id=\"bar\"0) }')
         #aux = parse('import {joao} from joao')

@@ -19,7 +19,8 @@ param : name "=" expr
 
 ?expr : atom
       | subs 
-      | html 
+      | html
+      | param
 
 ?subs : "$" NAME ("." NAME)*
     

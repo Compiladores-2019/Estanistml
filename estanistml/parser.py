@@ -40,8 +40,8 @@ class LispTransformer(InlineTransformer):
     def param(self, name, expr):
         return (name, expr)
     
-    def atrib(self, param):
-        return param
+    def atrib(self, *param):
+        return list(param)
 
 #name atrib children? -> html_full
 
