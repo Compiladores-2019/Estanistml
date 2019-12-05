@@ -3,28 +3,34 @@ from pathlib import Path
 
 from .runtime import Symbol
 
-class LispTransformer(InlineTransformer):
-    def start(self, *args): 
-        try:
-            return ["macro", *args]
-        except ValueError:
-            return ["import", *args]
-        
 
+class LispTransformer(InlineTransformer):
+    int = int
+    float = float
+    name = Symbol
+
+    def start(self, *args): 
+        return ['module', *args]
+        
     def string(self, st):
         res = str(st)[1:-1]
         res = res.replace("\\n","\n").replace("\\t","\t").replace("\\","")
         return res
     
-    def numb(self, number):
-        try:
-            return int(number)
-        except ValueError:
-            return float(number)
-    
     def args(self, *args):
-        return ("args", *args)
+        return list(args)
     
+    def define(self, name, x):
+        return ['define', name, x]
+
+    def macro(self, name, args, expr):
+        return ['macro', name, args, expr]
+
+    def html_simple(self, tag, children=None):
+        return ['html', str(str(tag)), {}, children or []]
+
+    def children(self, *args):
+        return list(args)
 
     # def atom(self, args):
     #     print("aq")
@@ -61,5 +67,9 @@ def _make_grammar():
     with open(path) as fd:
         grammar = Lark(fd, parser='lalr', transformer=LispTransformer())
     return grammar
+
+
+def lex(src: str):
+    return list(parser.lex(src))
 
 parser = _make_grammar()

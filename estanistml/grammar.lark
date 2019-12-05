@@ -1,38 +1,38 @@
-?start : cmd+
+start : cmd+
 
 ?cmd : define
      | imp
+     | macro
 
+?imp : "import" "{" args "}" "from" name
 
-?imp : "import" objeto "from" NAME
+macro : "macro" name "(" args? ")" "{" expr "}"
+args : name ("," name)*
 
-?objeto: "{" args "}" ->obj
+define : name "=" expr ";"
 
-?define : "macro" NAME "(" args? ")" "{" html "}"
+html : name children?       -> html_simple
+     | name atrib children? -> html_full
 
-?args : NAME ("," NAME)*
+atrib : "(" param+ ")"
+param : name "=" expr
 
-?html : NAME //atrib? children?
-
-?atrib : "(" param+ ")"
-
-?param : NAME "=" expr
-
-?expr : atom -> atom
-     | subs 
-     | html 
+?expr : atom
+      | subs 
+      | html 
 
 ?subs : "$" NAME ("." NAME)*
     
-?atom : NAME -> string
-     | number -> numb
-     | "(" expr ")"
+?atom : STRING -> string
+      | INT -> int
+      | FLOAT -> float
+      | "(" expr ")"
 
-?children : expr
+name  : NAME
+
+children : expr
          | "{" expr+ "}"
 
-?number: INT 
-      | FLOAT
 
 // Terminais
 SYMBOL.0  : /[-!+\/*@$%^&~<>?|\\\w=]+/
@@ -42,4 +42,4 @@ FLOAT.2   : /-?\d+\.\d+/
 NAME: /[a-zA-Z]\w*/
 
 %ignore /\s+/
-%ignore /;[^\n]*/
+%ignore /#[^\n]*/

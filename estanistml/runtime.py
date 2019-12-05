@@ -5,6 +5,11 @@ from types import MappingProxyType
 
 from .symbol import Symbol
 
+# from hyperpython import h
+def h(tag, attrs, children):
+    return [tag, attrs, children]
+
+
 
 def eval(x, env=None):
     """
@@ -17,9 +22,10 @@ def eval(x, env=None):
     
     # Avalia tipos atômicos
     if isinstance(x, Symbol):
-        return NotImplemented
+        return env[x]
+        
     elif isinstance(x, (int, float, bool, str)):
-        return NotImplemented
+        return x
 
     # Avalia formas especiais e listas
     head, *args = x
@@ -28,11 +34,25 @@ def eval(x, env=None):
     # Ex: (if (even? x) (quotient x 2) x)
     if head == Symbol.IF:
         return NotImplemented
+    
+    # Módulo module
+    elif head == 'module':
+        for cmd in args:
+            eval(cmd, env)
+        return None 
+        
+    # Comando x = 42;
+    elif head == 'define':
+        name, value = args
+        env[name] = eval(value, env)
+        return value
 
-    # Comando (define <symbol> <expression>)
-    # Ex: (define x (+ 40 2))
-    elif head == Symbol.DEFINE:
-        return NotImplemented
+    # Comando html;
+    elif head == 'html':
+        tag, attrs, children = args
+        attrs = {k: eval(v, env) for k, v in attrs.items()}
+        children = [eval(x, env) for x in children]
+        return h(tag, attrs, children)
 
     # Comando (quote <expression>)
     # (quote (1 2 3))
