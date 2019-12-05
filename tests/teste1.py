@@ -1,4 +1,4 @@
-from estanistml import var, env, Symbol, parse, eval, lex
+from estanistml import var, env, Symbol, parse, eval #, lex
 from estanistml.runtime import h
 
 run = lambda src, env=None: eval(parse(src), env)
@@ -20,6 +20,12 @@ class TestGrammar:
         assert parse(src) == ['module', ['define', x, ["html", "h1", {}, ["bar"]]]] 
 
     def test_simple_example3(self):
+        src = 'x = h1 (alexandre = 2) "bar";'
+        tree = parse(src)
+        print(pretty(tree))
+        assert parse(src) == ['module', ['define', x, ["html", "h1", {"(alexandre, 2)"}, ["bar"]]]] 
+
+    def test_simple_example4(self):
         src = 'macro f(x) {42}'
         tree = parse(src)
         print(pretty(tree))
@@ -29,6 +35,7 @@ class TestGrammar:
         #aux = parse('import {joao} from joao')
         #print (aux.pretty())
         #assert aux == ["macro", "joao","obj","div","class","foo", "id" , "bar"]
+    
 
 
 class TestRuntime:

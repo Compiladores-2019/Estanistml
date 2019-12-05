@@ -36,6 +36,17 @@ class LispTransformer(InlineTransformer):
 
     def macro(self, name, args, expr):
         return ['macro', name, args, expr]
+    
+    def param(self, name, expr):
+        return (name, expr)
+    
+    def atrib(self, param):
+        return param
+
+#name atrib children? -> html_full
+
+    def html_full(self, tag, atrib, children):
+        return ['html', str(str(tag)),{str(atrib)},children]
 
     def html_simple(self, tag, children=None):
         return ['html', str(str(tag)), {}, children or []]
@@ -76,7 +87,7 @@ def _make_grammar():
 
     path = Path(__file__).parent / 'grammar.lark'
     with open(path) as fd:
-        grammar = Lark(fd, parser='lalr', transformer=HTMLTransformer())
+        grammar = Lark(fd, parser='lalr', transformer=LispTransformer())
     return grammar
 
 

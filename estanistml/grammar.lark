@@ -14,7 +14,7 @@ define : name "=" expr ";"
 html : name children?       -> html_simple
      | name atrib children? -> html_full
 
-atrib : "(" param+ ")"
+atrib : "(" param ("," param)* ")"
 param : name "=" expr
 
 ?expr : atom
