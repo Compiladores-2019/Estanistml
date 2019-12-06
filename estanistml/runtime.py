@@ -5,9 +5,9 @@ from types import MappingProxyType
 
 from .symbol import Symbol
 
-# from hyperpython import h
-def h(tag, attrs, children):
-    return [tag, attrs, children]
+from hyperpython import h
+# def h(tag, attrs, children):
+#     return [tag, attrs, children]
 
 
 

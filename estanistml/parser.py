@@ -1,19 +1,7 @@
 from lark import Lark, InlineTransformer
 from pathlib import Path
 from .runtime import Symbol
-# from html.parser import HTMLParser
-# from bs4 import BeautifulSoup
 
-# class MyHTMLParser(HTMLParser):
-#     def handle_starttag(self, tag, attrs):
-#         print(tag)
-#         return tag
-#     def handle_endtag(self, endtag):
-#        print(endtag)
-#        return endtag
-#     def handle_data(self, data):
-#         print(data)
-#         return data
 
 class LispTransformer(InlineTransformer):
     int = int
@@ -34,19 +22,22 @@ class LispTransformer(InlineTransformer):
     def define(self, name, x):
         return ['define', name, x]
 
+    def imp(self,args,name):
+        return ['import', args, name]
+
     def macro(self, name, args, expr):
         return ['macro', name, args, expr]
     
     def param(self, name, expr):
-        return (name, expr)
+        return (str(name), expr)
     
     def atrib(self, *param):
-        return list(param)
+        return dict(param)
 
 #name atrib children? -> html_full
 
     def html_full(self, tag, atrib, children):
-        return ['html', str(str(tag)),{str(atrib)},children]
+        return ['html', str(str(tag)), atrib, children]
 
     def html_simple(self, tag, children=None):
         return ['html', str(str(tag)), {}, children or []]
