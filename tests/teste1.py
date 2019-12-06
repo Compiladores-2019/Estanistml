@@ -1,5 +1,5 @@
 from estanistml import var, env, Symbol, parse, eval #, lex
-from estanistml.runtime import h
+from hyperpython import h
 
 run = lambda src, env=None: eval(parse(src), env)
 x, y, a, b, c, f, g, op = map(Symbol, 'x y a b c f g op'.split())
@@ -29,15 +29,16 @@ class TestGrammar:
         src = 'x = h1 (alexandre = 2) "bar";'
         tree = parse(src)
         print(pretty(tree))
-        assert parse(src) == ['module', ['define', x, ["html", "h1", {"[(alexandre, 2)]"}, ["bar"]]]]
+        aux = {'alexandre': 2}
+        assert parse(src) == ['module', ['define', x, ["html", "h1", aux , ["bar"]]]]
 
     def test_full_example2(self):
         src = 'x = h1 (alexandre = 2, mo = 1) "bar";'
         src2 = 'x = h1 (alexandre = 2, mo = 1, jao = 24, cristo = 13) "bar";'
         tree = parse(src)
         print(pretty(tree))
-        assert parse(src) == ['module', ['define', x, ["html", "h1", {"[(alexandre, 2), (mo, 1)]"}, ["bar"]]]]
-        assert parse(src2) == ['module', ['define', x, ["html", "h1", {"[(alexandre, 2), (mo, 1), (jao, 24), (cristo, 13)]"}, ["bar"]]]]
+        assert parse(src) == ['module', ['define', x, ["html", "h1", {'alexandre': 2, 'mo': 1}, ["bar"]]]]
+        assert parse(src2) == ['module', ['define', x, ["html", "h1", {'alexandre': 2, 'mo': 1 ,'jao': 24, 'cristo': 13}, ["bar"]]]]
 
 
         #aux = parse('macro joao (obj) { div (class=\"foo\" id=\"bar\"0) }')
@@ -53,6 +54,14 @@ class TestRuntime:
         eval(parse('x = h1 "hello";'), env)
         print(env)
         assert env[x] == h('h1', {}, ['hello'])
+    
+    def teste_define_full_html(self):
+        aux = h('h1', {'class': 'foo', 'id':'bar'}, ['hello'])
+        print(aux)
+        env = {}
+        eval(parse('x = h1 (class="foo", id="bar") "hello";'), env)
+        print(env)
+        assert env[x] == h('h1', {'class':'foo','id':'bar'}, ['hello'])
 
 def pretty(x):
     try:
