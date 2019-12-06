@@ -23,7 +23,7 @@ class LispTransformer(InlineTransformer):
         return ['define', name, x]
 
     def imp(self,args,name):
-        return ['import', args, name]
+        return ['import', args, str(str(name))]
 
     def macro(self, name, args, expr):
         return ['macro', name, args, expr]
