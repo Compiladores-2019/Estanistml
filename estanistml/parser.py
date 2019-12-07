@@ -29,7 +29,7 @@ class LispTransformer(InlineTransformer):
         return ['macro', name, args, expr]
     
     def param(self, name, expr):
-        return (str(name), expr)
+        return (name, expr)
     
     def atrib(self, *param):
         return dict(param)
