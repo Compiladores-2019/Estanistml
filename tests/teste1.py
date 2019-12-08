@@ -1,5 +1,6 @@
 from estanistml import var, env, Symbol, parse, eval #, lex
 from hyperpython import h
+import estanistml.runtime
 
 run = lambda src, env=None: eval(parse(src), env)
 x, y, a, b, c, f, g, op, alexandre, mo, jao, cristo, classe,ID= map(Symbol, 'x y a b c f g op alexandre mo jao cristo classe ID'.split())
@@ -51,20 +52,15 @@ class TestGrammar:
         
     def teste_multiples_children(self):
         src = 'y = h2 (x = 1) {"bar"};'
-        src2 = 'y = h2 (x = 1) {h1 (a = 2, b = 1) "bar"};'
-        tree = parse(src2)
+        tree = parse(src)
         print(pretty(tree))
         assert parse(src) == ['module', ['define',y, ["html", "h2", {x:1} , ['bar']]]]
+        
+    def teste_multiples_children_advanced(self):
+        src2 = 'y = h2 (x = 1) {h1 (a = 2, b = 1) "bar"};'
+        tree = parse(src2)
+        print (pretty(tree))
         assert parse(src2) == ['module', ['define',y, ["html", "h2", {x:1} , [["html", "h1", {a: 2, b: 1}, ["bar"]]]]]]
-
-    
-
-
-    # def teste_multiples_children_advanced
-    #     src = ''
-    #     tree = parce(src)
-    #     print (pretty(tree))
-    #     asser parse(src) == ['module', []]
         
 
 class TestRuntime:
@@ -79,8 +75,7 @@ class TestRuntime:
         eval(parse('x = h1 (classe="foo", ID="bar") "hello";'), env)
         print(env)
         assert env[x] == h('h1', {classe:'foo', ID:'bar'}, ['hello'])
-    
- 
+
 
 def pretty(x):
     try:

@@ -9,3 +9,5 @@ private
 __pytest__
 __pycache__*
 *.pyc
+estanistml/__pycache__
+tests/__pycache__

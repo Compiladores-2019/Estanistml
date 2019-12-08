@@ -33,7 +33,11 @@ def eval(x, env=None):
     # Comando (if <test> <then> <other>)
     # Ex: (if (even? x) (quotient x 2) x)
     if head == Symbol.IF:
-        return NotImplemented
+        (test, then, alt) = args
+        for cmd in args:
+            r = eval(cmd,env)
+            t = (alt,env)
+        return eval(then, env) if r else t
     
     # Módulo module
     elif head == 'module':

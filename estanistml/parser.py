@@ -1,7 +1,7 @@
 from lark import Lark, InlineTransformer
 from pathlib import Path
 from .runtime import Symbol
-
+from .symbol import Symbol
 
 class LispTransformer(InlineTransformer):
     int = int
@@ -33,6 +33,14 @@ class LispTransformer(InlineTransformer):
     
     def atrib(self, *param):
         return dict(param)
+
+    def estanis_if(self, *args):
+        cond, true, *no_if, false = args
+        if not no_if:
+            return [Symbol.IF, cond, true,false]
+        else:
+            r = [Symbol.IF, cond, true,self.estanis_if(*no_if[0],*no_if[1:] , false)]
+            return r
 
 #name atrib children? -> html_full
 
