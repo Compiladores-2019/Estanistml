@@ -44,10 +44,20 @@ def eval(x, env=None):
     # Comando html;
     elif head == 'html':
         tag, attrs, children = args
-        attrs = {k: eval(v, env) for k, v in attrs.items()}
+        attrs = {str(k): eval(v, env) for k, v in attrs.items()}
         children = [eval(x, env) for x in children]
-        return h(tag, attrs, children)
+        a = h(tag, attrs, children)
+        return str(a)
+    
+    # comando macro
+    elif head == 'macro':
+        tag, argumentos, expr = args
+        body = [eval(expr, env)]
+        aux = (tag, argumentos, body)
+        env[tag] = aux
+        return aux
 
+       
     else:
        return NotImplemented
 

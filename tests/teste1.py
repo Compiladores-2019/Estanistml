@@ -86,13 +86,22 @@ class TestRuntime:
         env = {}
         eval(parse('x = h1 "hello";'), env)
         print(env)
-        assert env[x] == h('h1', {}, ['hello'])
+        a = h('h1', {}, ['hello'])
+        assert env[x] == str(a)
     
     def teste_define_full_html(self):
         env = {}
         eval(parse('x = h1 (classe="foo", ID="bar") "hello";'), env)
         print(env)
-        assert env[x] == h('h1', {classe:'foo', ID:'bar'}, ['hello'])
+        a = h('h1', {'classe':'foo', 'ID':'bar'}, ['hello'])
+        assert env[x] == str(a)
+    
+    def teste_macro_full_html(self):
+        env = {}
+        eval(parse('macro op(x){ div(classe = "foo") {"title"}}'),env)
+        src = h('div', {'classe':'foo'}, ['title'])
+        print(env[op])
+        assert env[op]== (op, [x],[str(src)])
 
 
 def pretty(x):
