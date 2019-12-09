@@ -30,6 +30,25 @@ class TestGrammar:
         print(pretty(tree))
         assert parse(src) == ['module', ['macro', f, [x], 42]] 
 
+
+    def test_macro_full(self):
+        src = 'macro op(x){ div(classe = "foo", ID = "bar") { h1 "title"} }'
+        src1 = 'macro op(x){ div(classe = "foo", ID = "bar") { h1 (y = "ipslon") "title"} }'
+        src2 = 'macro op(x){ div(classe = "foo", ID = "bar") { h1 "title" h2 "teste"} }'
+        src3 = 'macro op(x){ div(classe = "foo", ID = "bar") { h1 (y = "ipslon", c = "cê") "title" h2 "teste"} }'
+        tree = parse(src)
+        tree1 = parse(src1)
+        tree2 = parse(src2)
+        tree3 = parse(src3)
+        print(pretty(tree))
+        print(pretty(tree1))
+        print(pretty(tree2))
+        print(pretty(tree3))
+        assert parse(src) == ['module', ['macro', op, [x], ['html', 'div', {classe: 'foo', ID: 'bar'}, [['html', 'h1', {}, ['title']]]]]]
+        assert parse(src1) == ['module', ['macro', op, [x], ['html', 'div', {classe: 'foo', ID: 'bar'}, [['html', 'h1', {y:'ipslon'}, ['title']]]]]]
+        assert parse(src2) == ['module', ['macro', op, [x], ['html', 'div', {classe: 'foo', ID: 'bar'}, [['html', 'h1', {}, ['title']], ['html', 'h2', {}, ['teste']]]]]]
+        assert parse(src3) == ['module', ['macro', op, [x], ['html', 'div', {classe: 'foo', ID: 'bar'}, [['html', 'h1', {y: "ipslon", c: "cê"}, ['title']], ['html', 'h2', {}, ['teste']]]]]]
+
     def test_full_define(self):
         src = 'x = h1 (alexandre = 2, mo = 1) "bar";'
         src2 = 'x = h1 (alexandre = 2, mo = 1, jao = 24, cristo = 13) "bar";'
@@ -62,7 +81,6 @@ class TestGrammar:
         print (pretty(tree))
         assert parse(src2) == ['module', ['define',y, ["html", "h2", {x:1} , [["html", "h1", {a: 2, b: 1}, ["bar"]]]]]]
         
-
 class TestRuntime:
     def test_define_html(self):
         env = {}
