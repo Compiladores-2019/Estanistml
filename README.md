@@ -4,19 +4,35 @@
 
 Linguagem template feita em Lark que traduz seu código para HTML.
 
+### Exemplo
+
+```
+macro main(obj) {
+   div (class="foo" id="bar") {
+        h1 $obj.title1
+        h2 $obj.title2
+        p $obj.parag
+        a $obj.link
+        title $obj.title
+        strong $obj.text
+        em $obj.italico
+    }
+}
+```
+
 ## Instalação e Execução
 
 Install Docker-compose
 
 ### Run
 
->> make build
+> make build
 
->> make run
+> make run
 
 ### Run test
 
->> python3 -m pytest tests/teste1.py
+> python3 -m pytest tests/teste1.py
 
 ## Autores
 
