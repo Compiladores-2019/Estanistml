@@ -102,7 +102,16 @@ class TestRuntime:
         src = h('div', {'classe':'foo'}, ['title'])
         print(env[op])
         assert env[op]== (op, [x],[str(src)])
+        eval(parse('macro op(x){ div(classe = "foo") {h2 (y = "argu") "hello"}}'),env)        
+        print(env[op])
+        assert env[op]== (op, [x], ['<div classe="foo"><h2 y="argu">hello</h2></div>'])
 
+    
+
+    # def teste_importe(self):
+    #     env = {}
+    #     eval(parse('import {pi,sqrt} from math'),env)
+    #     assert env[op]== (op, [x],[str(1)])
 
 def pretty(x):
     try:

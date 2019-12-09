@@ -4,6 +4,7 @@ from collections import ChainMap
 from types import MappingProxyType
 from .symbol import Symbol
 from hyperpython import h
+import imp
 
 def eval(x, env=None):
     """
@@ -29,6 +30,39 @@ def eval(x, env=None):
     if head == Symbol.IF:
         return NotImplemented
     
+
+#    import imp
+
+# f, filename, description = imp.find_module('example')
+# example_package = imp.load_module('example', f, filename, description)
+# print 'Package:', example_package
+
+# f, filename, description = imp.find_module('submodule', 
+#                                            example_package.__path__)
+# try:
+#     submodule = imp.load_module('example.module', f, filename, description)
+#     print 'Sub-module:', submodule
+# finally:
+#     f.close()
+    #import submule from module
+    # return ['import', args, str(str(name))]
+    # imp : "import" "{" args "}" "from" name
+    
+    elif head == 'import':
+    
+        submodulos, modulo = args
+        res =[]
+        fp, pathname, description = imp.find_module(modulo)
+        try:
+            print(imp.load_module("pi", fp, pathname, description))
+        finally:
+            # Since we may exit via an exception, close fp explicitly.
+            if fp:
+                fp.close()               
+        return "nada"
+
+
+
     # Módulo module
     elif head == 'module':
         for cmd in args:
@@ -53,7 +87,7 @@ def eval(x, env=None):
     elif head == 'macro':
         tag, argumentos, expr = args
         body = [eval(expr, env)]
-        aux = (tag, argumentos, body)
+        aux = (tag, argumentos, [body[0].replace("&#34;","\"").replace("&lt;","<").replace("&gt;",">")])
         env[tag] = aux
         return aux
 

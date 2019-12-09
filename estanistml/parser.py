@@ -42,8 +42,6 @@ class LispTransformer(InlineTransformer):
             r = [Symbol.IF, cond, true,self.estanis_if(*no_if[0],*no_if[1:] , false)]
             return r
 
-#name atrib children? -> html_full
-
     def html_full(self, tag, atrib, children):
         return ['html', str(str(tag)), atrib, children]
 
