@@ -2,8 +2,7 @@
 
 ## Linguagem Estanisml
 
-Linguagem de programação orientada a testes para parse em HTML.
-
+Linguagem template feita em Lark que traduz seu código para HTML.
 
 ## Instalação e Execução
 
@@ -14,6 +13,10 @@ Install Docker-compose
 >> make build
 
 >> make run
+
+### Run test
+
+>> python3 -m pytest tests/teste1.py
 
 ## Autores
 
