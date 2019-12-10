@@ -30,20 +30,6 @@ def eval(x, env=None):
     if head == Symbol.IF:
         return NotImplemented
     
-
-#    import imp
-
-# f, filename, description = imp.find_module('example')
-# example_package = imp.load_module('example', f, filename, description)
-# print 'Package:', example_package
-
-# f, filename, description = imp.find_module('submodule', 
-#                                            example_package.__path__)
-# try:
-#     submodule = imp.load_module('example.module', f, filename, description)
-#     print 'Sub-module:', submodule
-# finally:
-#     f.close()
     #import submule from module
     # return ['import', args, str(str(name))]
     # imp : "import" "{" args "}" "from" name
@@ -51,7 +37,6 @@ def eval(x, env=None):
     elif head == 'import':
     
         submodulos, modulo = args
-        res =[]
         fp, pathname, description = imp.find_module(modulo)
         try:
             print(imp.load_module("pi", fp, pathname, description))
@@ -60,8 +45,6 @@ def eval(x, env=None):
             if fp:
                 fp.close()               
         return "nada"
-
-
 
     # Módulo module
     elif head == 'module':
@@ -81,17 +64,20 @@ def eval(x, env=None):
         attrs = {str(k): eval(v, env) for k, v in attrs.items()}
         children = [eval(x, env) for x in children]
         a = h(tag, attrs, children)
-        return str(a)
+        return a
     
     # comando macro
     elif head == 'macro':
         tag, argumentos, expr = args
-        body = [eval(expr, env)]
-        aux = (tag, argumentos, [body[0].replace("&#34;","\"").replace("&lt;","<").replace("&gt;",">")])
-        env[tag] = aux
-        return aux
+        
+        def macro(*args):
+            vars = dict(zip(argumentos, args))
+            local_env = ChainMap(vars, env)
+            return eval(expr, local_env)
+        
+        env[tag] = macro
+        return macro
 
-       
     else:
        return NotImplemented
 

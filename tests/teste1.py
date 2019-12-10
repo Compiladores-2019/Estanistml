@@ -87,24 +87,25 @@ class TestRuntime:
         eval(parse('x = h1 "hello";'), env)
         print(env)
         a = h('h1', {}, ['hello'])
-        assert env[x] == str(a)
+        assert env[x] == a
     
     def teste_define_full_html(self):
         env = {}
         eval(parse('x = h1 (classe="foo", ID="bar") "hello";'), env)
         print(env)
         a = h('h1', {'classe':'foo', 'ID':'bar'}, ['hello'])
-        assert env[x] == str(a)
+        assert env[x] == a
     
     def teste_macro_full_html(self):
         env = {}
         eval(parse('macro op(x){ div(classe = "foo") {"title"}}'),env)
         src = h('div', {'classe':'foo'}, ['title'])
         print(env[op])
-        assert env[op]== (op, [x],[str(src)])
-        eval(parse('macro op(x){ div(classe = "foo") {h2 (y = "argu") "hello"}}'),env)        
-        print(env[op])
-        assert env[op]== (op, [x], ['<div classe="foo"><h2 y="argu">hello</h2></div>'])
+        # assert env[op]== (op, [x],[str(src)])
+        eval(parse('macro op(x){ h1 "hello"}'),env)        
+        fn = env[op]
+        assert fn(42) == h('h1', {}, 'hello')
+        # assert env[op]== (op, [x], ['<div classe="foo"><h2 y="argu">hello</h2></div>'])
 
     
 
