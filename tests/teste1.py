@@ -1,5 +1,6 @@
 from estanistml import var, env, Symbol, parse, eval #, lex
 from hyperpython import h
+from math import pi, sqrt
 import estanistml.runtime
 
 run = lambda src, env=None: eval(parse(src), env)
@@ -29,7 +30,6 @@ class TestGrammar:
         tree = parse(src)
         print(pretty(tree))
         assert parse(src) == ['module', ['macro', f, [x], 42]] 
-
 
     def test_macro_full(self):
         src = 'macro op(x){ div(classe = "foo", ID = "bar") { h1 "title"} }'
@@ -107,20 +107,17 @@ class TestRuntime:
         assert fn(42) == h('h1', {}, 'hello')
         # assert env[op]== (op, [x], ['<div classe="foo"><h2 y="argu">hello</h2></div>'])
 
-    
-
     def teste_importe(self):
         env = {}
         eval(parse('import {pi,sqrt} from math'),env)
-        print(env['math'])
         a = env['math']
-        b= a['pi']
-        print(b)
-        d = a['sqrt']
-        d(7)
+        PI = a['pi']
+        SQRT = a['sqrt']
+        d = a['pi']
         print(d)
-        assert env[op]== (op, [x],[str(1)])
-
+        assert PI== pi 
+        assert SQRT == sqrt
+        
 def pretty(x):
     try:
         return x.pretty()

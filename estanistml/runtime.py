@@ -4,7 +4,7 @@ from collections import ChainMap
 from types import MappingProxyType
 from .symbol import Symbol
 from hyperpython import h
-# import imp
+import imp
 
 def eval(x, env=None):
     """
@@ -45,7 +45,7 @@ def eval(x, env=None):
            aux.update(result)
         env[modulo] = aux
         return aux
-
+    
     # Módulo module
     elif head == 'module':
         for cmd in args:
