@@ -8,14 +8,14 @@ Linguagem template feita em Lark que traduz seu código para HTML.
 
 ```
 macro main(obj) {
-   div (class="foo" id="bar") {
-        h1 $obj.title1
-        h2 $obj.title2
-        p $obj.parag
-        a $obj.link
-        title $obj.title
-        strong $obj.text
-        em $obj.italico
+    div (class="foo" id="bar") {
+        h1 'titulo'
+        h2 'titulo'
+        h3 'titulo'
+        p 'paragrafo'
+        title 'titulo'
+        strong 'negrito'
+        em 'italico
     }
 }
 ```
