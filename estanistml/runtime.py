@@ -4,7 +4,7 @@ from collections import ChainMap
 from types import MappingProxyType
 from .symbol import Symbol
 from hyperpython import h
-import imp
+# import imp
 
 def eval(x, env=None):
     """
@@ -37,14 +37,14 @@ def eval(x, env=None):
     elif head == 'import':
     
         submodulos, modulo = args
-        fp, pathname, description = imp.find_module(modulo)
-        try:
-            print(imp.load_module("pi", fp, pathname, description))
-        finally:
-            # Since we may exit via an exception, close fp explicitly.
-            if fp:
-                fp.close()               
-        return "nada"
+        a =__import__(modulo)
+        print(a)
+        aux ={}
+        for sub in submodulos:
+           result = {str(sub): getattr(a,str(sub))}
+           aux.update(result)
+        env[modulo] = aux
+        return aux
 
     # Módulo module
     elif head == 'module':

@@ -109,10 +109,17 @@ class TestRuntime:
 
     
 
-    # def teste_importe(self):
-    #     env = {}
-    #     eval(parse('import {pi,sqrt} from math'),env)
-    #     assert env[op]== (op, [x],[str(1)])
+    def teste_importe(self):
+        env = {}
+        eval(parse('import {pi,sqrt} from math'),env)
+        print(env['math'])
+        a = env['math']
+        b= a['pi']
+        print(b)
+        d = a['sqrt']
+        d(7)
+        print(d)
+        assert env[op]== (op, [x],[str(1)])
 
 def pretty(x):
     try:
