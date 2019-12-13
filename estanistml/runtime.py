@@ -4,7 +4,6 @@ from collections import ChainMap
 from types import MappingProxyType
 from .symbol import Symbol
 from hyperpython import h
-import imp
 
 def eval(x, env=None):
     """

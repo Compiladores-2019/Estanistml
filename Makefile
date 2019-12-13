@@ -1,5 +1,5 @@
 build:
-	 sudo docker-compose build
+	sudo docker-compose build
 
 run:
 	sudo docker-compose up -d
@@ -10,3 +10,6 @@ down:
 
 teste1:
 	python3 -m pytest tests/teste1.py
+
+teste2:
+	python3 -m pytest tests/teste2.py
